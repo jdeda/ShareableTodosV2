@@ -33,7 +33,15 @@ struct AppView: View {
       .navigationTitle("Todos")
       .toolbar {
         ToolbarItemGroup(placement: .bottomBar) {
+          Spacer()
           Text("\(vm.todos.count) todos")
+          Spacer()
+          Button {
+            vm.addTodoButtonTapped()
+          } label: {
+            Image(systemName: "plus")
+          }
+          .foregroundColor(.orange)
         }
         ToolbarItemGroup(placement: .primaryAction) {
           ShareLink(
@@ -66,7 +74,6 @@ struct AppView: View {
       } message: {
         Text("Would you like to replace your todos with the new data?")
       }
-      
     }
   }
 }
@@ -102,6 +109,12 @@ final class AppViewModel: ObservableObject {
   func todoSwipedToDelete(_ todo: Todo) {
     let i = todos.firstIndex { $0.id == todo.id }!
     todos.remove(at: i)
+  }
+  
+  func addTodoButtonTapped() {
+    withAnimation {
+      todos.append(.init(id: .init(), description: "Untitled Todo", isComplete: false))
+    }
   }
   
   func openURL(_ url: URL) {
