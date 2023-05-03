@@ -105,12 +105,12 @@ final class AppViewModel: ObservableObject {
   }
   
   func openURL(_ url: URL) {
-    alertIsShowing = true
     let components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
     let dataString = components.queryItems!.first!.value!
     let data = dataString.data(using: .utf8)!
     let todos = try! JSONDecoder().decode([Todo].self, from: data)
     savedTodos = todos
+    alertIsShowing = true
   }
   
   func acceptSavedTodos() {
